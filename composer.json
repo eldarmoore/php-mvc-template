@@ -17,7 +17,8 @@
     "phpunit/phpunit": "^9.0",
     "squizlabs/php_codesniffer": "^3.0",
     "phpstan/phpstan": "^1.0",
-    "friendsofphp/php-cs-fixer": "^3.0"
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "symfony/var-dumper": "^6.4"
   },
   "scripts": {
     "test": "phpunit"
