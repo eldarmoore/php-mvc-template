@@ -10,11 +10,11 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 switch ($uri) {
     case '/':
-        $controller = new HomeController();
+        $controller = new HomeController($log);
         $controller->index();
         break;
     case '/report':
-        $controller = new ReportController();
+        $controller = new ReportController($log);
         $controller->index();
         break;
     default:

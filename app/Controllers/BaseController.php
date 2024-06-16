@@ -2,37 +2,47 @@
 
 namespace App\Controllers;
 
+use Monolog\Logger;
 use Twig\Environment;
+use Twig\Error\Error;
 use Twig\Loader\FilesystemLoader;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class BaseController
 {
     /**
      * @var Environment
      */
-    protected $twig;
+    protected Environment $twig;
 
-    public function __construct()
+    /**
+     * @var Logger
+     */
+    protected Logger $logger;
+
+    public function __construct(Logger $logger)
     {
+        $this->logger = $logger;
         $loader = new FilesystemLoader(__DIR__ . '/../Views');
         $this->twig = new Environment($loader);
     }
 
     /**
-     * Render a twig template
+     * Render a Twig template and log potential errors
      *
      * @param  string  $template
      * @param  array  $parameters
      * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     protected function render(string $template, array $parameters = []): string
     {
-        return $this->twig->render($template, $parameters);
+        try {
+            return $this->twig->render($template, $parameters);
+        } catch (Error $e) {
+            $this->logger->error('Twig error: ' . $e->getMessage());
+            return 'There was an error! Template not found!';
+        } catch (\Exception $e) {
+            $this->logger->error('Uncaught Exception: ' . $e->getMessage());
+            return '';
+        }
     }
 }
