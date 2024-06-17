@@ -2,9 +2,16 @@
 
 namespace App\Controllers;
 
-class ReportController
+use Monolog\Logger;
+
+class ReportController extends BaseController
 {
-    public function index()
+    public function __construct(Logger $logger)
+    {
+        parent::__construct($logger);
+    }
+
+    public function index(): void
     {
         // Prepare data for the view
         $data = [
@@ -13,12 +20,6 @@ class ReportController
         ];
 
         // Load the view with data
-        $this->loadView('report', $data);
-    }
-
-    private function loadView($view, $data = [])
-    {
-        extract($data);
-        require __DIR__ . '/../Views/' . $view . '.php';
+        echo $this->render('report.html', $data);
     }
 }
