@@ -22,28 +22,15 @@ services:
       - db
 
   db:
-    image: mariadb:latest
-    container_name: ${APP_NAME}_db
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    volumes:
-      - db_data:/var/lib/mysql
-
-  # Uncomment the following section to use MSSQL
-  # mssql:
-  #   image: mcr.microsoft.com/mssql/server:2019-latest
-  #   container_name: ${APP_NAME}_mssql
-  #   ports:
-  #     - "1433:1433"
-  #   environment:
-  #     ACCEPT_EULA: "Y"
-  #     SA_PASSWORD: ${MSSQL_SA_PASSWORD}
-  #     MSSQL_PID: "Express"
+     image: mcr.microsoft.com/mssql/server:2019-latest
+     container_name: ${APP_NAME}_mssql
+     platform: linux/amd64
+     ports:
+       - "1433:1433"
+     environment:
+       ACCEPT_EULA: "Y"
+       SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+       MSSQL_PID: "Express"
 
 volumes:
   db_data:
